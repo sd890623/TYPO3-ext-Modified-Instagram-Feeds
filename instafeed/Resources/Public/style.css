@@ -1,0 +1,13 @@
+.tx_instafeed .singleFeed img {
+	width:100%;
+}
+.tx_instafeed .singleFeed .info {
+	text-align:center;
+}
+
+.tx_instafeed .singleFeed {
+	opacity:0.5;
+}
+.tx_instafeed .singleFeed.selected {
+	opacity:1;
+}

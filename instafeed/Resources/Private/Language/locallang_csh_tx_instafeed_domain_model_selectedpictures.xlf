@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2016-10-20T23:19:10Z" product-name="instafeed">
+		<header/>
+		<body>
+			<trans-unit id="url.description">
+				<source>url</source>
+			</trans-unit>
+			<trans-unit id="hashtag.description">
+				<source>hashtag</source>
+			</trans-unit>
+			<trans-unit id="notes.description">
+				<source>notes</source>
+			</trans-unit>
+			<trans-unit id="selected.description">
+				<source>selected</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

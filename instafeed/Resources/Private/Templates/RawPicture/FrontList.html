@@ -1,0 +1,41 @@
+
+<f:layout name="Main" />
+
+This Template is responsible for creating a table of domain objects.
+
+If you modify this template, do not forget to change the overwrite settings
+in /Configuration/ExtensionBuilder/settings.yaml:
+  Resources:
+    Private:
+      Templates:
+        List.html: keep
+
+Otherwise your changes will be overwritten the next time you save the extension in the extension builder
+
+<f:section name="main">
+<script type="text/javascript">
+	var getJsonUrl='<f:uri.action action="jsonList" controller="RawPicture" noCacheHash="1" noCache="1"/>'
+</script>
+<h1>List of selected Instagram Feeds</h1>
+
+<f:flashMessages />
+
+<div class="fe_instafeed">
+
+	<div class="row">
+		<f:for each="{rawPictures}" as="rawPicture">
+			<div class='singleFeed col-sm-3 <f:if condition="{rawPicture.selected}==1">selected</f:if>'>
+				<img src="{rawPicture.url}" />
+				<div class="info">
+					<p>Hashtag:{rawPicture.hashtag}</p>
+					<p>{rawPicture.notes}</p>
+				</div>
+			</div>
+		</f:for>
+	</div>
+</div>
+<button class="fetchJson btn btn-primary">Fetch Json to console</button>
+
+<f:link.action action="jsonList" controller="RawPicture">Get JSON data</f:link.action>
+
+</f:section>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2016-10-25T01:36:33Z" product-name="instafeed">
+		<header/>
+		<body>
+			<trans-unit id="tx_instafeed_domain_model_rawpicture">
+				<source>Raw Picture</source>
+			</trans-unit>
+			<trans-unit id="tx_instafeed_domain_model_rawpicture.url">
+				<source>Url</source>
+			</trans-unit>
+			<trans-unit id="tx_instafeed_domain_model_rawpicture.hashtag">
+				<source>Hashtag</source>
+			</trans-unit>
+			<trans-unit id="tx_instafeed_domain_model_rawpicture.notes">
+				<source>Notes</source>
+			</trans-unit>
+			<trans-unit id="tx_instafeed_domain_model_rawpicture.selected">
+				<source>Selected</source>
+			</trans-unit>
+			<trans-unit id="tx_instafeed_domain_model_rawpicture.id">
+				<source>Id</source>
+			</trans-unit>
+			<trans-unit id="tx_instafeed_domain_model_selectedpicture">
+				<source>Selected Picture</source>
+			</trans-unit>
+			<trans-unit id="tx_instafeed_domain_model_selectedpicture.url">
+				<source>Url</source>
+			</trans-unit>
+			<trans-unit id="tx_instafeed_domain_model_selectedpicture.hashtag">
+				<source>Hashtag</source>
+			</trans-unit>
+			<trans-unit id="tx_instafeed_domain_model_selectedpicture.notes">
+				<source>Notes</source>
+			</trans-unit>
+			<trans-unit id="tx_instafeed_domain_model_selectedpicture.selected">
+				<source>Selected</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>
