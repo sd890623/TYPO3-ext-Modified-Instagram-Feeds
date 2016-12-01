@@ -95,8 +95,8 @@
         {
             "config": {
                 "position": [
-                    732,
-                    194
+                    739,
+                    280
                 ]
             },
             "name": "New Model Object",
@@ -104,12 +104,12 @@
                 "actionGroup": {
                     "_default0_list": true,
                     "_default1_show": true,
-                    "_default2_new_create": false,
-                    "_default3_edit_update": false,
-                    "_default4_delete": false,
+                    "_default2_new_create": true,
+                    "_default3_edit_update": true,
+                    "_default4_delete": true,
                     "customActions": []
                 },
-                "name": "SelectedPicture",
+                "name": "FeedSet",
                 "objectsettings": {
                     "addDeletedField": true,
                     "addHiddenField": true,
@@ -121,7 +121,7 @@
                     "parentClass": "",
                     "sorting": false,
                     "type": "Entity",
-                    "uid": "690226633091"
+                    "uid": "1263847126050"
                 },
                 "propertyGroup": {
                     "properties": [
@@ -131,9 +131,9 @@
                             "propertyDescription": "",
                             "propertyIsExcludeField": true,
                             "propertyIsRequired": false,
-                            "propertyName": "url",
+                            "propertyName": "name",
                             "propertyType": "String",
-                            "uid": "1031785955779"
+                            "uid": "1087304884657"
                         },
                         {
                             "allowedFileTypes": "",
@@ -141,9 +141,9 @@
                             "propertyDescription": "",
                             "propertyIsExcludeField": true,
                             "propertyIsRequired": false,
-                            "propertyName": "hashtag",
-                            "propertyType": "String",
-                            "uid": "482850772996"
+                            "propertyName": "icon",
+                            "propertyType": "Image",
+                            "uid": "1311826563244"
                         },
                         {
                             "allowedFileTypes": "",
@@ -151,24 +151,25 @@
                             "propertyDescription": "",
                             "propertyIsExcludeField": true,
                             "propertyIsRequired": false,
-                            "propertyName": "notes",
-                            "propertyType": "String",
-                            "uid": "662853269382"
-                        },
-                        {
-                            "allowedFileTypes": "",
-                            "maxItems": "1",
-                            "propertyDescription": "",
-                            "propertyIsExcludeField": true,
-                            "propertyIsRequired": false,
-                            "propertyName": "selected",
-                            "propertyType": "Boolean",
-                            "uid": "1217122288914"
+                            "propertyName": "description",
+                            "propertyType": "Text",
+                            "uid": "133311631511"
                         }
                     ]
                 },
                 "relationGroup": {
-                    "relations": []
+                    "relations": [
+                        {
+                            "foreignRelationClass": "",
+                            "lazyLoading": false,
+                            "propertyIsExcludeField": true,
+                            "relationDescription": "",
+                            "relationName": "rawPicture",
+                            "relationType": "manyToMany",
+                            "relationWire": "[wired]",
+                            "uid": "92875767558"
+                        }
+                    ]
                 }
             }
         }
@@ -217,9 +218,22 @@
         ],
         "vendorName": "Cerebrum"
     },
-    "wires": [],
+    "wires": [
+        {
+            "src": {
+                "moduleId": 1,
+                "terminal": "relationWire_0",
+                "uid": "92875767558"
+            },
+            "tgt": {
+                "moduleId": 0,
+                "terminal": "SOURCES",
+                "uid": "1366282402369"
+            }
+        }
+    ],
     "log": {
-        "last_modified": "2016-10-25 01:36",
+        "last_modified": "2016-10-28 05:23",
         "extension_builder_version": "7.6.0",
         "be_user": "Daniel Sun (4)"
     }

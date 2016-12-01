@@ -1,0 +1,45 @@
+
+<f:layout name="Default" />
+
+This Template is responsible for creating a table of domain objects.
+
+If you modify this template, do not forget to change the overwrite settings
+in /Configuration/ExtensionBuilder/settings.yaml:
+  Resources:
+    Private:
+      Templates:
+        List.html: keep
+
+Otherwise your changes will be overwritten the next time you save the extension in the extension builder
+
+<f:section name="main">
+<div ng-app="instagramFeed">
+	<div ng-controller="feedsCtrl">
+		<h1>{{notes}}</h1>
+
+<f:flashMessages />
+
+<table  class="tx_instafeed" >
+	<tr>
+		<th><f:translate key="tx_instafeed_domain_model_feedset.name" /></th>
+		<th><f:translate key="tx_instafeed_domain_model_feedset.icon" /></th>
+		<th><f:translate key="tx_instafeed_domain_model_feedset.description" /></th>
+		<th> </th>
+		<th> </th>
+	</tr>
+
+	<f:for each="{feedSets}" as="feedSet">
+		<tr>
+			<td><f:link.action action="show" arguments="{feedSet : feedSet}"> {feedSet.name}</f:link.action></td>
+			<td><f:link.action action="show" arguments="{feedSet : feedSet}"> {feedSet.icon.originalResource.name}</f:link.action></td>
+			<td><f:link.action action="show" arguments="{feedSet : feedSet}"> {feedSet.description}</f:link.action></td>
+			<td><f:link.action action="edit" arguments="{feedSet : feedSet}">Edit</f:link.action></td>
+			<td><f:link.action action="delete" arguments="{feedSet : feedSet}">Delete</f:link.action></td>
+		</tr>
+	</f:for>
+</table>
+
+<f:link.action action="new">New FeedSet</f:link.action>
+	</div>
+</div>
+</f:section>

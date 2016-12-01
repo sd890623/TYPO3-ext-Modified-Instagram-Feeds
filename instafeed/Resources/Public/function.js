@@ -50,3 +50,8 @@ $(document).ready(function() {
 		})
 	}
 });
+
+
+var app=angular.module('instagramFeed',[]);
+var app2=angular.module('instagramFeed2',[]);
+var homeAddr='http://typo3.daniel.test.cerebrum/';

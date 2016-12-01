@@ -27,7 +27,7 @@ namespace Cerebrum\Instafeed\Domain\Model;
  ***************************************************************/
 
 /**
- * RawPictures
+ * RawPicture
  */
 class RawPicture extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 {

@@ -6,7 +6,14 @@ plugin.tx_instafeed_frontfeeds {
 		layoutRootPaths.0 = {$plugin.tx_instafeed_frontfeeds.view.layoutRootPath}
 	}
 	persistence {
-		#storagePid = {$plugin.tx_instafeed_frontfeeds.persistence.storagePid}
+		storagePid = {$plugin.tx_instafeed_frontfeeds.persistence.storagePid}
+	}
+}
+
+page = PAGE
+page {
+	includeCSS {
+		css= EXT:instafeed/Resources/Public/front.scss
 	}
 }
 

@@ -15,16 +15,16 @@ Otherwise your changes will be overwritten the next time you save the extension 
 
 <f:section name="main">
 <script type="text/javascript">
-	var getJsonUrl='<f:uri.action action="jsonList" controller="RawPicture" noCacheHash="1" noCache="1"/>'
 </script>
-<h1>List of selected Instagram Feeds (v1)</h1>
-
+<h1>List of selected Instagram Feeds (v2)</h1>
+<h4>Campaign Name: {campaignName}</h4>
 <f:flashMessages />
 
 <div class="fe_instafeed">
 
 	<div class="row">
-		<f:for each="{rawPictures}" as="rawPicture">
+
+		<f:for each="{feeds}" as="rawPicture">
 			<div class='singleFeed <f:if condition="{rawPicture.selected}==1">selected</f:if>'>
 				<img src="{rawPicture.url}" />
 				<div class="info">
@@ -40,8 +40,6 @@ Otherwise your changes will be overwritten the next time you save the extension 
 		</f:for>
 	</div>
 </div>
-<button class="fetchJson btn btn-primary">Fetch Json to console</button>
 
-<f:link.action action="jsonList" controller="RawPicture">Get JSON data</f:link.action>
 
 </f:section>

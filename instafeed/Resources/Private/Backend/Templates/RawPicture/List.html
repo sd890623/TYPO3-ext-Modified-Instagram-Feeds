@@ -13,42 +13,52 @@ in /Configuration/ExtensionBuilder/settings.yaml:
 Otherwise your changes will be overwritten the next time you save the extension in the extension builder
 
 <f:section name="content">
-<script type="text/javascript">
-	var urlSelectUpdate = '<f:uri.action action="select" controller="RawPicture" noCacheHash="1" noCache="1"/>';
-	var getJsonUrl='<f:uri.action action="jsonList" controller="RawPicture" noCacheHash="1" noCache="1"/>'
-</script>
-<h1>List of Instagram Pictures based on hashtag</h1>
+<div ng-app="instagramFeed">
+	<div class="singleFeedSet" ng-controller="singleFeedSet">
+		<script type="text/javascript">
+			var feedUpdateUrl = '<f:uri.action action="update" controller="RawPicture" noCacheHash="1" noCache="1"/>';
+			var getJsonUrl='<f:uri.action action="jsonList" controller="RawPicture" noCacheHash="1" noCache="1"/>'
+		</script>
+		<h1>GET YOUR INSTAGRAM PICTURES</h1>
 
-<f:flashMessages />
-<f:form method="post" controller="RawPicture" action="updateAll">
-	<label>Input the hashtag (Including #, could be multiple)</label><br/>
-	<f:form.textfield name="tx_instfeed[hashtag]" /><br/>
-	<label>Access Token (leave it unchanged unless notification)</label><br/>
-	<f:form.textfield name="tx_instfeed[access_token]" value="4036265431.061253b.13db852b5a6c4e83820dfaaf16edd776" /> <br/>
-	<label>Storage Page ID(hover on page to find)</label>
-	<f:form.textfield name="tx_instfeed[storage]" value="49" /> <br/>
-	<f:form.submit class="submit" value="Synchronize" />
+		<f:flashMessages />
+		<p>Current included tags: <span ng-repeat="tag in tags">#{{tag}} </span></p>
+		<f:form method="post" controller="RawPicture" action="updateAll">
+			<label>Input the hashtag (Including #, could be multiple)</label><br/>
+			<f:form.textfield name="tx_instfeed[hashtag]" placeholder="{}" /><br/>
+			<!--
+			<label>Access Token (leave it unchanged unless notification)</label><br/>
+			<f:form.textfield name="tx_instfeed[access_token]" value="4036265431.061253b.13db852b5a6c4e83820dfaaf16edd776" /> <br/>
+			-->
+			<label>Storage Page ID(hover on page to find)</label>
+			<f:form.textfield name="tx_instfeed[storage]" value="49" /> <br/>
+			<f:form.submit class="submit" value="Synchronize" />
 
-</f:form>
+		</f:form>
 
 
-<div class="tx_instafeed" >
 
-	<div class="row">
-		<f:for each="{rawPictures}" as="rawPicture">
-			<div class='singleFeed col-sm-3 <f:if condition="{rawPicture.selected}==1">selected</f:if>' id-field="{rawPicture.uid}" select="{rawPicture.selected}">
-				<img src="{rawPicture.url}" />
-				<div class="info">
-					<p>Hashtag:{rawPicture.hashtag}</p>
-					<p>{rawPicture.notes}</p>
+		<div class="row">
+			<div class="singleFeed " ng-repeat="feed in feeds" ng-class="isSelected(feed)">
+				<div class="select" ng-click="changeSelect(feed)">
+					<img ng-src="{{feed.url}}" />
 				</div>
+				<div class="info">
+					<p>Hashtag:{{feed.hashtag}}</p>
+					<p>{{feed.notes}}</p>
+				</div>
+				<button class="btn btn-primary" ng-click="removeFeed(feed)">Remove</button>
 			</div>
-		</f:for>
+		</div>
 	</div>
 </div>
+
+
 
 <button class="fetchJson btn btn-primary">Fetch Json to console</button>
 
 <f:link.action action="jsonList" controller="RawPicture">Direct link to json action</f:link.action>
+
+<f:link.action action="backRoot" controller="FeedSet">Go to campaigns</f:link.action>
 
 </f:section>

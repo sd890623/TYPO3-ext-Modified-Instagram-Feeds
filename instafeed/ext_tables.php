@@ -9,8 +9,17 @@ if (!defined('TYPO3_MODE')) {
 	'List of Instagram Feeds'
 );
 
+$pluginSignature = str_replace('_', '', $_EXTKEY) . '_frontfeeds';
+$TCA['tt_content']['types']['list']['subtypes_addlist'][$pluginSignature] = 'pi_flexform';
+
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPiFlexFormValue(
+    $pluginSignature,
+    'FILE:EXT:' . $_EXTKEY . '/Configuration/FlexForms/feedSetsView.xml'
+);
+
 if (TYPO3_MODE === 'BE') {
-    $TBE_STYLES['inDocStyles_TBEstyle'] .= '@import "/typo3conf/ext/instafeed/Resources/Public/style.css";';
+    $TBE_STYLES['inDocStyles_TBEstyle'] .= '@import "/typo3conf/ext/instafeed/Resources/Public/back.css";';
+
 	/**
 	 * Registers a Backend Module
 	 */
@@ -20,7 +29,7 @@ if (TYPO3_MODE === 'BE') {
 		'instafeedback',	// Submodule key
 		'',						// Position
 		array(
-			'RawPicture' => 'list, show, new, create, edit, updateAll, delete, select, jsonList','SelectedPicture' => 'list, show',
+			'RawPicture' => 'list, show, new, create, edit, updateAll, delete, select, jsonList, update' ,'FeedSet'=> 'backRoot, list, show, new, create, edit, update, delete',
 		),
 		array(
 			'access' => 'user,group',
@@ -36,5 +45,5 @@ if (TYPO3_MODE === 'BE') {
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addLLrefForTCAdescr('tx_instafeed_domain_model_rawpicture', 'EXT:instafeed/Resources/Private/Language/locallang_csh_tx_instafeed_domain_model_rawpicture.xlf');
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages('tx_instafeed_domain_model_rawpicture');
 
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addLLrefForTCAdescr('tx_instafeed_domain_model_selectedpicture', 'EXT:instafeed/Resources/Private/Language/locallang_csh_tx_instafeed_domain_model_selectedpicture.xlf');
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages('tx_instafeed_domain_model_selectedpicture');
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addLLrefForTCAdescr('tx_instafeed_domain_model_feedset', 'EXT:instafeed/Resources/Private/Language/locallang_csh_tx_instafeed_domain_model_feedset.xlf');
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages('tx_instafeed_domain_model_feedset');

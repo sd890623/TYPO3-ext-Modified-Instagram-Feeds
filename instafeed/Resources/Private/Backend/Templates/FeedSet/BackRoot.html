@@ -1,0 +1,77 @@
+
+<f:layout name="Default" />
+
+This Template is responsible for creating a table of domain objects.
+
+If you modify this template, do not forget to change the overwrite settings
+in /Configuration/ExtensionBuilder/settings.yaml:
+  Resources:
+    Private:
+      Templates:
+        List.html: keep
+
+Otherwise your changes will be overwritten the next time you save the extension in the extension builder
+
+<f:section name="content">
+<script type="text/javascript">
+	var feedUpdateUrl = '<f:uri.action action="update" controller="FeedSet" noCacheHash="1" noCache="1"/>';
+	var addFeedSetUrl= '<f:uri.action action="create" controller="FeedSet" noCacheHash="1" noCache="1"/>';
+	var removeFeedSetUrl= '<f:uri.action action="delete" controller="FeedSet" noCacheHash="1" noCache="1"/>';
+	var editFeedSetUrl= '<f:uri.action action="edit" controller="FeedSet" noCacheHash="1" noCache="1"/>';
+	var getFeedSetsUrl='<f:uri.action action="list" controller="FeedSet" noCacheHash="1" noCache="1"/>';
+</script>
+<div ng-app="instagramFeed" class="tx_instafeed">
+	<div ng-controller="feedSetsCtrl" class="feedSets">
+		<h1>{{notes}}</h1>
+
+		<div class="tabButtons">
+			<ul class="nav nav-tabs">
+				<li role="presentation" ng-repeat="(iter, feedSet) in feedSets" ng-click="setTab(iter)" ng-class="{active:checkActive(iter),editing:feedSet.editing}">
+					<div class="item">
+						<label ng-dblclick="editTab(feedSet)">{{feedSet.name}}</label>
+						<a class="removeTabBtn" ng-click="removeTab(feedSet)">x</a>
+					</div>
+					<form ng-submit="saveEditTab(feedSet)" class="edit">
+						<input ng-model="feedSet.name" ng-blur="saveEditTab(feedSet)"></input>
+						
+					</form>
+					
+				</li>
+				<li role="presentation">
+					<form id="newFeedSetName-form">
+						<input type="text" placeholder="Name of new campaign" ng-model="newFeedSetName" >
+						<div class="addButton" ng-click="addTab()"><span>+</span></div>
+					</form>	
+				</li>
+			</ul>
+		</div>
+		<div class="panels">
+
+			<div ng-repeat="(iter, feedSet) in feedSets" class="singleFeedSet" ng-show="checkActive(iter)" >
+				<p>Current included tags: <span ng-repeat="tag in feedSet.tags">#{{tag}} </span></p>
+				<div class="hashTag-form">
+					<form ng-submit="addFeeds(feedSet)">
+						<label>Input your hashtags</label>
+						<input type="text" ng-model="feedSet.hashTags" placeholder="ex: #food#work"/>
+						{{hashTags}}
+						<input type="submit" ng-hide="feedSet.submitted" value="Synchronize">
+					</form> 
+				</div>
+				Name: {{feedSet.name}}
+				<div class="row">
+					<div ng-repeat="(iter, feed) in feedSet.pictures" ng-click="changeSelect(feed,feedSet)" class="singleFeed" ng-class="{selected:feed.selected==1}">
+						<img ng-src="{{feed.url}}" />
+						<div class="info">
+							<p>Hashtag:{{feed.hashtag}}</p>
+							<p>{{feed.notes}}</p>
+						</div>
+						<button class="btn btn-primary" ng-click="removeFeed(feed,feedSet)">Remove</button>
+					</div>
+				</div>
+
+			</div>
+		</div>
+		<f:flashMessages />
+	</div>
+</div>
+</f:section>

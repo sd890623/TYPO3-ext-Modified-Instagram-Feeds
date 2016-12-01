@@ -31,7 +31,6 @@ namespace Cerebrum\Instafeed\Domain\Repository;
  */
 class RawPictureRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 {
-
     /**
      * @param $singlePic
      * @return stringified objects;
@@ -40,7 +39,7 @@ class RawPictureRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
     {
         $query = $this->createQuery();
         $query->matching($query->equals('id', $singlePic->getId()));
-        $results = $query->execute(true);
+        $results = $query->execute();
         return $results;
     }
     /**
@@ -53,7 +52,5 @@ class RawPictureRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         $results = $query->execute();
         return $results;
     }
-
     
-
 }

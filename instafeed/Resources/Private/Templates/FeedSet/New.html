@@ -12,15 +12,15 @@ in /Configuration/ExtensionBuilder/settings.yaml:
 
 Otherwise your changes will be overwritten the next time you save the extension in the extension builder
 
-<f:section name="content">
-<h1>New RawPicture</h1>
+<f:section name="main">
+<h1>New FeedSet</h1>
 
 <f:flashMessages />
 
-<f:render partial="FormErrors" />
+<f:render partial="FormErrors" arguments="{object:FeedSet}" />
 
-<f:form action="create"  enctype="multipart/form-data"  name="newRawPicture" object="{newRawPicture}">
-<f:render partial="RawPicture/FormFields" />
+<f:form action="create"  enctype="multipart/form-data"  name="newFeedSet" object="{newFeedSet}">
+<f:render partial="FeedSet/FormFields" />
 	<f:form.submit value="Create new" />
 </f:form>
 </f:section>

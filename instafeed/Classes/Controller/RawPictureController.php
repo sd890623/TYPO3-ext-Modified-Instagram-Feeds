@@ -45,7 +45,7 @@ class RawPictureController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionContr
      */
     public function convertZeroToBoolean($val)
     {
-        if ($val == 1) {
+        if ($val == "true") {
             return true;
         } else {
             return false;
@@ -72,10 +72,10 @@ class RawPictureController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionContr
      */
     public function listAction()
     {
-        $rawPictures = $this->rawPictureRepository->findAll();
-        $this->view->assign('rawPictures', $rawPictures);
-        $emptyArray = array('name' => 'sun');
-        $this->view->assign('formValues', $emptyArray);
+        //$rawPictures = $this->rawPictureRepository->findAll();
+        //$this->view->assign('rawPictures', $rawPictures);
+        //$emptyArray = array('name' => 'sun');
+        //$this->view->assign('formValues', $emptyArray);
     }
     
     /**
@@ -89,6 +89,7 @@ class RawPictureController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionContr
         $results=array();
         foreach($rawPictures as $rawPicture) {
             $arr=array();
+            $arr['uid']=$rawPicture->getUid();
             $arr['url']=$rawPicture->getUrl();
             $arr['hashtag']=$rawPicture->getHashtag();
             $arr['notes']=$rawPicture->getNotes();
@@ -122,6 +123,9 @@ class RawPictureController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionContr
         $hashtag = $_POST[tx_instafeed_web_instafeedinstafeedback][tx_instfeed][hashtag];
         $hashArray = explode('#', $hashtag);
         $access_token = $_POST[tx_instafeed_web_instafeedinstafeedback][tx_instfeed][access_token];
+        if ($access_token==null || $access_token=="") {
+            $access_token='4036265431.061253b.13db852b5a6c4e83820dfaaf16edd776';
+        }
         $storagePageID=$_POST[tx_instafeed_web_instafeedinstafeedback][tx_instfeed][storage];
         foreach ($hashArray as $eachHash) {
             $url = 'https://api.instagram.com/v1/tags/' . $eachHash . '/media/recent?access_token=' . $access_token;
@@ -153,15 +157,28 @@ class RawPictureController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionContr
      * @param Cerebrum\Instafeed\Domain\Model\RawPicture
      * @return string
      */
-    public function selectAction()
+    public function updateAction()
     {
+
         $post = $_POST;
-        $selected = $_POST[changeTo];
-        $itemID = $_POST[itemID];
-        $singleFeedInst = $this->rawPictureRepository->findByUid($itemID);
-        $singleFeedInst->setSelected($this->convertZeroToBoolean($selected));
-        $this->rawPictureRepository->update($singleFeedInst);
-        return 'updated';
+        $mode=$post["type"];
+        if ($mode=="select") {
+            $selected = $_POST["selected"];
+            $itemID = $_POST["uid"];
+            $singleFeedInst = $this->rawPictureRepository->findByUid($itemID);
+            $singleFeedInst->setSelected($this->convertZeroToBoolean($selected));
+            $this->rawPictureRepository->update($singleFeedInst);
+            return 'select Updated';
+        }
+        else if ($mode=="remove") {
+            $itemID = $_POST["uid"];
+            $singleFeedInst = $this->rawPictureRepository->findByUid($itemID);
+            $this->rawPictureRepository->remove($singleFeedInst);
+            return 'removed';
+        }
+        return "error";
+
+
     }
     
     /**

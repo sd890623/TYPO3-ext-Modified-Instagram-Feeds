@@ -7,14 +7,14 @@ if (!defined('TYPO3_MODE')) {
 	'Cerebrum.' . $_EXTKEY,
 	'Frontfeeds',
 	array(
-		'RawPicture' => 'frontList,jsonList',
-		'SelectedPicture' => 'list, show',
+		'RawPicture' => 'frontList,jsonList,update,create,delete,edit',
+		'FeedSet' => 'list, show, new, create, edit, update, delete',
 		
 	),
 	// non-cacheable actions
 	array(
 		'RawPicture' => 'frontList,jsonList',
-		'SelectedPicture' => 'frontList',
+		'FeedSet' => 'create, update, delete',
 		
 	)
 );

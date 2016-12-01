@@ -1,0 +1,60 @@
+<T3DataStructure>
+	<sheets>
+		<sDEF>
+			<ROOT>
+				<TCEforms>
+					<sheetTitle>Campaigns View</sheetTitle>
+				</TCEforms>
+				<type>array</type>
+				<el>
+					<switchableControllerActions>
+						<TCEforms>
+							<label>Action</label>
+							<onChange>reload</onChange>
+							<config>
+								<type>select</type>
+								<items type="array">
+									<numIndex index="0">
+			 							<numIndex index="0">v1 Campaign Insta Feeds</numIndex>
+			 							<numIndex index="1">RawPicture->frontList;</numIndex>
+									</numIndex>
+									<numIndex index="1">
+			 							<numIndex index="0">Single Campaign Component</numIndex>
+			 							<numIndex index="1">FeedSet->show;</numIndex>
+									</numIndex>									
+			
+																				
+								</items>
+							</config>
+						</TCEforms>
+					</switchableControllerActions>
+
+
+					<!-- single news -->
+					<settings.feedSets>
+						<TCEforms>
+							<label>Select Campaigns records (only for v2 inst plugin)</label>
+							<config>
+								<type>group</type>
+								<internal_type>db</internal_type>
+								<allowed>tx_instafeed_domain_model_feedset</allowed>
+								<size>1</size>
+								<maxitems>1</maxitems>
+								<minitems>0</minitems>
+								<show_thumbs>1</show_thumbs>
+								<wizards>
+									<suggest>
+										<type>suggest</type>
+										<default>
+											<searchWholePhrase>1</searchWholePhrase>
+										</default>
+									</suggest>
+								</wizards>
+							</config>
+						</TCEforms>
+					</settings.feedSets>
+				</el>
+			</ROOT>
+		</sDEF>
+	</sheets>
+</T3DataStructure>
