@@ -91,7 +91,7 @@ app.service('storage',function(api) {
 		return new Promise(function(resolve,reject) {
 			paramArray["type"]="add";
 			api.updateFeedSet(paramArray).done(function(data) {
-				console.log(data);
+				//console.log(data);
 				if (data==null || data=="") reject (Error("error"));
 				else if (data=="feeds added") resolve(true);
 				else resolve(false);
@@ -179,7 +179,7 @@ app.service('storage',function(api) {
 });
 
 
-app.service('utility',function() {
+app.service('utility',function($scope) {
 	this.getTags=function(objects) {
 		var tags=[];
 		for (var i=0; i<objects.length;i++) {
@@ -194,5 +194,12 @@ app.service('utility',function() {
 
 		}
 		return tags;
+	},
+	this.showError=function(value) {
+		$scope.error=value;
+		setTimeout(function(){
+			$scope.error="";
+		},2000);
+
 	}
 });

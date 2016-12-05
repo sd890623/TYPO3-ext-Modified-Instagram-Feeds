@@ -9,7 +9,6 @@ app.controller('feedSetsCtrl',function($scope,storage,$rootScope,utility) {
 			//val.tags=utility.getTags(val.pictures);
 			$scope.$watchCollection(function() {return val.pictures;} , function(newValue,oldValue) {
 				val.tags=utility.getTags(newValue);
-				console.log("tags changed");
 			});
 			
 		});
@@ -89,7 +88,8 @@ app.controller('feedSetsCtrl',function($scope,storage,$rootScope,utility) {
 				feedSet.hashTags="";
 				feedSet.submitted=false;
 			}
-			else feedSet.submitted=false;
+			else {feedSet.submitted=false;
+			utility.showError("hashtags not exist");}
 		});
 	}
 	$scope.changeSelect=function(feed,feedSet) {

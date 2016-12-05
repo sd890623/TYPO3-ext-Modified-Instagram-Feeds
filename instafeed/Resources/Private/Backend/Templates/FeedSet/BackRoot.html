@@ -57,7 +57,9 @@ Otherwise your changes will be overwritten the next time you save the extension 
 						<input type="submit" ng-hide="feedSet.submitted" value="Synchronize">
 					</form> 
 				</div>
-				Name: {{feedSet.name}}
+				<div class="error-msg">
+					{{error}}
+				</div>
 				<div class="row">
 					<div ng-repeat="(iter, feed) in feedSet.pictures" ng-click="changeSelect(feed,feedSet)" class="singleFeed" ng-class="{selected:feed.selected==1}">
 						<img ng-src="{{feed.url}}" />

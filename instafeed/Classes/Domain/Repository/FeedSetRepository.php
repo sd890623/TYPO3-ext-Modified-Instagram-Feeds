@@ -125,4 +125,18 @@ class FeedSetRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         //$query -> execute(true);  
         return $results;
      }   
+
+
+     /** 
+     * @param feedSetUid, feedUid
+     * @return sucess indicator?;
+     remove record in mm database
+     */     
+     public function removeAllFeed ($feedSetUid) {
+        //$query= $this -> createQuery();
+        //$sql= 'UPDATE tx_instafeed_feedset_rawpicture_mm SET selected = 1 ';
+        $results=$GLOBALS['TYPO3_DB']->exec_DELETEquery('tx_instafeed_feedset_rawpicture_mm', 'uid_local = '.$feedSetUid);
+        //$query -> execute(true);  
+        return $results;
+     } 
 }

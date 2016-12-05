@@ -91,6 +91,7 @@ CREATE TABLE tx_instafeed_feedset_rawpicture_mm (
 	uid_foreign int(11) unsigned DEFAULT '0' NOT NULL,
 	sorting int(11) unsigned DEFAULT '0' NOT NULL,
 	sorting_foreign int(11) unsigned DEFAULT '0' NOT NULL,
+	selected tinyint(4) unsigned DEFAULT '0' NOT NULL
 
 	KEY uid_local (uid_local),
 	KEY uid_foreign (uid_foreign)

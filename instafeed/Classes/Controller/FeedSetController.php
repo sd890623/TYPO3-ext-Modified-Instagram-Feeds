@@ -196,7 +196,7 @@ class FeedSetController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
      * action update
      *
      * @param \Cerebrum\Instafeed\Domain\Model\FeedSet $feedSet
-     * @return void
+     * @return string
      */
     public function updateAction()
     {
@@ -229,7 +229,7 @@ class FeedSetController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
             $feedSetId=$_POST['feedSet-uid'];
             $hashtags=$_POST['hashtags'];
             $hashArray = explode('#', $hashtags);
-            $access_token='4036265431.061253b.13db852b5a6c4e83820dfaaf16edd776';
+            //Insert your own access token, refer to https://www.instagram.com/developer/authentication/
             $storagePageID=49;
             
             $feedSet=$this->feedSetRepository->findByUid($feedSetId);
@@ -239,6 +239,7 @@ class FeedSetController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
                 $url = 'https://api.instagram.com/v1/tags/' . $eachHash . '/media/recent?access_token=' . $access_token;
                 $json = file_get_contents($url);
                 $data = json_decode($json, TRUE);
+                //if (empty($data['data'])) {return "empty result";}
                 foreach ($data['data'] as $var) {
                     $stdResImgUrl = $var['images']['standard_resolution']['url'];
                     $singleFeedInst = new \Cerebrum\Instafeed\Domain\Model\RawPicture();
@@ -257,15 +258,10 @@ class FeedSetController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
                     //return $singleFeedInst->getUrl();
 
                     if (empty($exist)) {
+                        //return "empty exist";
                         $this->rawPictureRepository->add($singleFeedInst);
                         $this->persistenceManager->persistAll();
-                        sleep(10);
-                        //$singleFeedInst=$this->rawPictureRepository->findById($singleFeedInst)->getFirst();
-                        return $singleFeedInst->getUid();
-                        $this->feedSetRepository->addFeed($feedSet,$addedInstance);
-                        //$this->persistenceManager->persistAll();
-
-
+                        $this->feedSetRepository->addFeed($feedSet,$singleFeedInst);
                     }
                     else {
                         if (empty($this->feedSetRepository->findMMByUid($feedSet,$exist))) {
@@ -329,6 +325,7 @@ class FeedSetController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
     public function deleteAction()
     {
         $feedSetId=$_POST["feedSet-uid"];
+        $this->feedSetRepository->removeAllFeed($feedSetId);
         $feedSet = $this->feedSetRepository->findByUid($feedSetId);
         $this->feedSetRepository->remove($feedSet);
         return "feedSet removed";
