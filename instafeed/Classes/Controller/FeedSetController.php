@@ -133,15 +133,20 @@ class FeedSetController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
     public function showAction()
     {
         $feedSetUid=$this->settings['feedSets'];
-        $feedSet=$this->feedSetRepository->findByUid($feedSetUid);
-        $feedsUid=$this->feedSetRepository->findMMSelectedByUid($feedSet);
-        $feeds=array();
-        foreach ($feedsUid as $feedUid) {
-                $feeds[]=$this->rawPictureRepository->findByUid($feedUid["uid_foreign"]);            
+        if ($feedSetUid==null) {
+            $this->view->assign('errorMsg',"Woops, an error occured. Please choose a campaign in the backend of the page");
         }
-        
-        $this->view->assign('campaignName',$feedSet->getName());
-        $this->view->assign('feeds', $feeds);
+        else {
+            $feedSet=$this->feedSetRepository->findByUid($feedSetUid);
+            $feedsUid=$this->feedSetRepository->findMMSelectedByUid($feedSet);
+            $feeds=array();
+            foreach ($feedsUid as $feedUid) {
+                    $feeds[]=$this->rawPictureRepository->findByUid($feedUid["uid_foreign"]);            
+            }
+            
+            $this->view->assign('campaignName',$feedSet->getName());
+            $this->view->assign('feeds', $feeds);
+        }
     }
     
     /**
@@ -230,6 +235,7 @@ class FeedSetController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
             $hashtags=$_POST['hashtags'];
             $hashArray = explode('#', $hashtags);
             //Insert your own access token, refer to https://www.instagram.com/developer/authentication/
+
             $storagePageID=49;
             
             $feedSet=$this->feedSetRepository->findByUid($feedSetId);

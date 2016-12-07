@@ -148,7 +148,7 @@ app.service('storage',function(api) {
 		return new Promise(function(resolve,reject) {
 			
 			api.addFeedSet(paramArray).done(function(data) {
-				console.log(data);
+				//console.log(data);
 				if (data==null || data=="") reject (Error("error"));
 				else if (data=="feedSet added") resolve(true);
 				else resolve(false);
@@ -179,7 +179,7 @@ app.service('storage',function(api) {
 });
 
 
-app.service('utility',function($scope) {
+app.service('utility',function() {
 	this.getTags=function(objects) {
 		var tags=[];
 		for (var i=0; i<objects.length;i++) {
@@ -196,10 +196,6 @@ app.service('utility',function($scope) {
 		return tags;
 	},
 	this.showError=function(value) {
-		$scope.error=value;
-		setTimeout(function(){
-			$scope.error="";
-		},2000);
 
 	}
 });
