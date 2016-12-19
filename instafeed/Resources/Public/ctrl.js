@@ -2,25 +2,27 @@ app.controller('feedSetsCtrl',function($scope,storage,$rootScope,utility) {
 
 
 	//Listener
-	$scope.$on('data loaded', function(event, args) {
+	$scope.$on('first data loaded', function(event, args) {
 		
-
 		angular.forEach($scope.feedSets,function(val,key) {
-			//val.tags=utility.getTags(val.pictures);
-			$scope.$watchCollection(function() {return val.pictures;} , function(newValue,oldValue) {
-				val.tags=utility.getTags(newValue);
-			});
-			
+			//$scope.changeFeeds(val);				
 		});
-		$scope.$digest();
 	});
 
-	$scope.initFeedSets=function(lastTab) {
+	//Funcs
+	$scope.initFeedSets=function(lastTab,first) {
+		first= first || 0;
 
 		storage.fetchFeedSets().then(function(response) {
 			$scope.feedSets=response;
+			for (var i=0;i<feedSets.length;i++) {
+				feedSets[i].showHashInput=feedSets[i].hashTags?false:true;
+				feedSets[i].tags=utility.getTags(feedSets[i].pictures);
+			}
 			if (lastTab) $scope.tabs=$scope.feedSets.length-1;
-			$rootScope.$broadcast('data loaded');
+			$scope.$digest();
+			if (first) $rootScope.$broadcast('first data loaded');
+			
 		},function(error) {
 
 		});		
@@ -52,7 +54,7 @@ app.controller('feedSetsCtrl',function($scope,storage,$rootScope,utility) {
 			params={'name':$scope.newFeedSetName}
 			storage.addFeedSet(params).then (function(response) {
 				if(response) {
-					$scope.initFeedSets(true);
+					$scope.initFeedSets(true,true);
 					$scope.newFeedSetName="";
 				}
 			});		
@@ -79,17 +81,18 @@ app.controller('feedSetsCtrl',function($scope,storage,$rootScope,utility) {
 		});
 		
 	}
-	$scope.addFeeds=function(feedSet) {
-		feedSet.submitted=true;
+	$scope.changeFeeds=function(feedSet) {
+		feedSet.submitted="Sending, please wait.";
 		params={'feedSet-uid':feedSet.uid,'hashtags':feedSet.hashTags};
-		storage.addFeeds(params).then(function(response) {
+		storage.changeFeeds(params).then(function(response) {
 			if(response) {
-				$scope.initFeedSets(false);
-				feedSet.hashTags="";
 				feedSet.submitted=false;
+				feedSet.showHashInput=false;
+				$scope.initFeedSets(false);
+
 			}
-			else {feedSet.submitted=false;
-			utility.showError("hashtags not exist");}
+			else {feedSet.submitted=false;}
+			//utility.showError("hashtags not exist",$scope);}
 		});
 	}
 	$scope.changeSelect=function(feed,feedSet) {
@@ -111,12 +114,18 @@ app.controller('feedSetsCtrl',function($scope,storage,$rootScope,utility) {
 			}
 		});
 	}
+
+	$scope.showObjects=function() {
+		console.log($scope.feedSets);
+	}
 	//test-out
 	$scope.notes="Create your campaigns";
-	//Iniit
+	$scope.debug=true;
 
+	//Iniit
 	$scope.tabs=0;
-	$scope.initFeedSets(false);
+	$scope.initFeedSets(false,true);
+
 
 });
 

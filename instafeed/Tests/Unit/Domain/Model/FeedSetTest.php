@@ -129,6 +129,31 @@ class FeedSetTest extends \TYPO3\CMS\Core\Tests\UnitTestCase
 	/**
 	 * @test
 	 */
+	public function getHashtagsReturnsInitialValueForString()
+	{
+		$this->assertSame(
+			'',
+			$this->subject->getHashtags()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function setHashtagsForStringSetsHashtags()
+	{
+		$this->subject->setHashtags('Conceived at T3CON10');
+
+		$this->assertAttributeEquals(
+			'Conceived at T3CON10',
+			'hashtags',
+			$this->subject
+		);
+	}
+
+	/**
+	 * @test
+	 */
 	public function getRawPictureReturnsInitialValueForRawPicture()
 	{
 		$newObjectStorage = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();

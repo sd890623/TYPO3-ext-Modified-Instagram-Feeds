@@ -19,14 +19,14 @@ return array(
 			'starttime' => 'starttime',
 			'endtime' => 'endtime',
 		),
-		'searchFields' => 'name,icon,description,raw_picture,',
+		'searchFields' => 'name,icon,description,hashtags,raw_picture,',
 		'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('instafeed') . 'Resources/Public/Icons/tx_instafeed_domain_model_feedset.gif'
 	),
 	'interface' => array(
-		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, name, icon, description, raw_picture',
+		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, name, icon, description, hashtags, raw_picture',
 	),
 	'types' => array(
-		'1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, name, icon, description, raw_picture, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime'),
+		'1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, name, icon, description, hashtags, raw_picture, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime'),
 	),
 	'palettes' => array(
 		'1' => array('showitem' => ''),
@@ -180,6 +180,15 @@ return array(
 				'rows' => 15,
 				'eval' => 'trim'
 			)
+		),
+		'hashtags' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:instafeed/Resources/Private/Language/locallang_db.xlf:tx_instafeed_domain_model_feedset.hashtags',
+			'config' => array(
+				'type' => 'input',
+				'size' => 30,
+				'eval' => 'trim'
+			),
 		),
 		'raw_picture' => array(
 			'exclude' => 1,

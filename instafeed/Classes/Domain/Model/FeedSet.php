@@ -1,7 +1,6 @@
 <?php
 namespace Cerebrum\Instafeed\Domain\Model;
 
-
 /***************************************************************
  *
  *  Copyright notice
@@ -62,6 +61,13 @@ class FeedSet extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $rawPicture = null;
     
     /**
+     * hashtags
+     *
+     * @var string
+     */
+    protected $hashtags = '';
+    
+    /**
      * __construct
      */
     public function __construct()
@@ -103,7 +109,26 @@ class FeedSet extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         $this->name = $name;
     }
+    /**
+     * Returns the hashtags
+     *
+     * @return string $hashtags
+     */
+    public function getHashtags()
+    {
+        return $this->hashtags;
+    }
     
+    /**
+     * Sets the hashtags
+     *
+     * @param string $hashtags
+     * @return void
+     */
+    public function setHashtags($hashtags)
+    {
+        $this->hashtags = $hashtags;
+    } 
     /**
      * Returns the icon
      *

@@ -29,7 +29,7 @@ if (TYPO3_MODE === 'BE') {
 		'instafeedback',	// Submodule key
 		'',						// Position
 		array(
-			'RawPicture' => 'list, show, new, create, edit, updateAll, delete, select, jsonList, update' ,'FeedSet'=> 'backRoot, list, show, new, create, edit, update, delete',
+			'FeedSet'=> 'backRoot, list, show, new, create, edit, update, delete','RawPicture' => 'list, show, new, create, edit, updateAll, delete, select, jsonList, update' ,
 		),
 		array(
 			'access' => 'user,group',

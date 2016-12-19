@@ -87,13 +87,13 @@ app.service('storage',function(api) {
 			);
 		});
 	},
-	this.addFeeds=function(paramArray) {
+	this.changeFeeds=function(paramArray) {
 		return new Promise(function(resolve,reject) {
-			paramArray["type"]="add";
+			paramArray["type"]="change";
 			api.updateFeedSet(paramArray).done(function(data) {
 				//console.log(data);
 				if (data==null || data=="") reject (Error("error"));
-				else if (data=="feeds added") resolve(true);
+				else if (data=="feeds changed") resolve(true);
 				else resolve(false);
 			});
 		});
@@ -157,7 +157,6 @@ app.service('storage',function(api) {
 	},
 	this.removeFeedSet=function(paramArray) {
 		return new Promise(function(resolve,reject) {
-			
 			api.removeFeedSet(paramArray).done(function(data) {
 				if (data==null || data=="") reject (Error("error"));
 				else if (data=="feedSet removed") resolve(true);
@@ -167,14 +166,24 @@ app.service('storage',function(api) {
 	},
 	this.editFeedSet=function(paramArray) {
 		return new Promise(function(resolve,reject) {
+			paramArray["type"]="name";
 			api.editFeedSet(paramArray).done(function(data) {
 				if (data==null || data=="") reject (Error("error"));
-				else if (data=="feedSet updated") resolve(true);
+				else if (data=="feedSet name updated") resolve(true);
+				else resolve(false);
+			});
+		});
+	},
+	this.editFeedSetHashtags=function(paramArray) {
+		return new Promise(function(resolve,reject) {
+			paramArray["type"]="hashtags";
+			api.editFeedSet(paramArray).done(function(data) {
+				if (data==null || data=="") reject (Error("error"));
+				else if (data=="feedSet hashtags updated") resolve(true);
 				else resolve(false);
 			});
 		});
 	}
-	
 
 });
 
@@ -183,7 +192,7 @@ app.service('utility',function() {
 	this.getTags=function(objects) {
 		var tags=[];
 		for (var i=0; i<objects.length;i++) {
-			var tagsArray=objects[i].hashtag.split(",");
+			var tagsArray=objects[i].hashTags.split(",");
 			for(var m=0;m<tagsArray.length;m++) {
 				var exist=false;
 				for (var j=0; j<tags.length;j++) {
@@ -195,7 +204,10 @@ app.service('utility',function() {
 		}
 		return tags;
 	},
-	this.showError=function(value) {
-
+	this.showError=function(text,scope) {
+		scope.error=text;
+		setTimeout(function(){
+			scope.error="";
+		}, 3000);
 	}
 });

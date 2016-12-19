@@ -1,7 +1,6 @@
 <?php
 namespace Cerebrum\Instafeed\Domain\Repository;
 
-
 /***************************************************************
  *
  *  Copyright notice
@@ -32,111 +31,114 @@ namespace Cerebrum\Instafeed\Domain\Repository;
  */
 class FeedSetRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 {
-	 /**
+
+    /**
      * @param null
      * @return stringified objects;
      */
-	public function findAllWithSelected() {
-		$query = $this->createQuery();
-		//$query->getQuerySettings()->setReturnRawQueryResult(TRUE);
-		$results=$query->statement ('SELECT * FROM tx_instafeed_domain_model_feedset AS FEEDSET');
+    public function findAllWithSelected()
+    {
+        $query = $this->createQuery();
+        //$query->getQuerySettings()->setReturnRawQueryResult(TRUE);
+        $results = $query->statement('SELECT * FROM tx_instafeed_domain_model_feedset AS FEEDSET');
         $results = $query->execute();
         return $results;
-	}
-	 /** 
+    }
+    
+    /**
      * @param feedSetUid
      * @return array objects;
-     return middleTable result array for certain feedSet ID
-     */	
-     public function findMMByFeedSetUid ($uid) {
-     	$query= $this -> createQuery();
-     	$query->statement('SELECT * FROM tx_instafeed_feedset_rawpicture_mm AS MM WHERE uid_local = '.$uid.'');
-     	$results = $query -> execute(true);
-     	return $results;
-     }
-
-     /** 
-     * @param feedSet, feed
-     * @return array objects;
-     return middleTable result array for certain feedSet ID
-     */ 
-     public function findMMByUid ($feedSet,$feed) {
-        $query= $this -> createQuery();
-        $query->statement('SELECT * FROM tx_instafeed_feedset_rawpicture_mm AS MM WHERE uid_local = '.$feedSet->getUid().' AND uid_foreign = '.$feed->getUid() );
-        //return ('SELECT * FROM tx_instafeed_feedset_rawpicture_mm AS MM WHERE uid_local = '.$feedSet->getUid().' AND uid_foreign = '.$feed->getUid() );
-        $results = $query -> execute(true);
+     */
+    public function findMMByFeedSetUid($uid)
+    {
+        $query = $this->createQuery();
+        $query->statement('SELECT * FROM tx_instafeed_feedset_rawpicture_mm AS MM WHERE uid_local = ' . $uid . '');
+        $results = $query->execute(true);
         return $results;
-     }
-     /**
+    }
+    
+    /**
+     * @param $feedSet
+     * @param $feed
+     * @return array objects;
+     */
+    public function findMMByUid($feedSet, $feed)
+    {
+        $query = $this->createQuery();
+        $query->statement('SELECT * FROM tx_instafeed_feedset_rawpicture_mm AS MM WHERE uid_local = ' . $feedSet->getUid() . ' AND uid_foreign = ' . $feed->getUid());
+        //return ('SELECT * FROM tx_instafeed_feedset_rawpicture_mm AS MM WHERE uid_local = '.$feedSet->getUid().' AND uid_foreign = '.$feed->getUid() );
+        $results = $query->execute(true);
+        return $results;
+    }
+    
+    /**
      * @param feedSet
      * @return array objects;
-     return middleTable result array for certain feedSet ID
-     */ 
-     public function findMMSelectedByUid ($feedSet) {
-        $query= $this -> createQuery();
-        $query->statement('SELECT uid_foreign FROM tx_instafeed_feedset_rawpicture_mm AS MM WHERE uid_local = '.$feedSet->getUid().' AND selected = 1 ');
+     */
+    public function findMMSelectedByUid($feedSet)
+    {
+        $query = $this->createQuery();
+        $query->statement('SELECT uid_foreign FROM tx_instafeed_feedset_rawpicture_mm AS MM WHERE uid_local = ' . $feedSet->getUid() . ' AND selected = 1 ');
         //return ('SELECT * FROM tx_instafeed_feedset_rawpicture_mm AS MM WHERE uid_local = '.$feedSet->getUid().' AND uid_foreign = '.$feed->getUid() );
-        $results = $query -> execute(true);
+        $results = $query->execute(true);
         return $results;
-     }
-
-     /** 
-     * @param feedSetUid, feedUid, select status
+    }
+    
+    /**
+     * @param $feedSetUid
+     * @param $feedUid
+     * @param $selected
      * @return sucess indicator?;
-     update mm database for the record select field
-     */     
-     public function updateFeedSelect ($feedSetUid,$feedUid,$selected) {
+     */
+    public function updateFeedSelect($feedSetUid, $feedUid, $selected)
+    {
         //$query= $this -> createQuery();
         //$sql= 'UPDATE tx_instafeed_feedset_rawpicture_mm SET selected = 1 ';
-        $results=$GLOBALS['TYPO3_DB']->exec_UPDATEquery('tx_instafeed_feedset_rawpicture_mm', 'uid_local = '.$feedSetUid.' AND uid_foreign = '.$feedUid, array('selected' => $selected));
-
-
-
-        //$query -> execute(true);  
+        $results = $GLOBALS['TYPO3_DB']->exec_UPDATEquery('tx_instafeed_feedset_rawpicture_mm', 'uid_local = ' . $feedSetUid . ' AND uid_foreign = ' . $feedUid, array('selected' => $selected));
+        //$query -> execute(true);
         return $results;
-     }
-
-     /** 
-     * @param feedSet, feed
+    }
+    
+    /**
+     * @param $feedSet
+     * @param $feed
      * @return sucess indicator?;
-     update mm database for the record select field
-     */     
-     public function addFeed ($feedSet,$feed) {
+     */
+    public function addFeed($feedSet, $feed)
+    {
         //$query= $this -> createQuery();
         //$sql= 'UPDATE tx_instafeed_feedset_rawpicture_mm SET selected = 1 ';
-        $fields=array("uid_local"=>$feedSet->getUid(),"uid_foreign"=>$feed->getUid());
-        $success=$GLOBALS['TYPO3_DB']->exec_INSERTquery('tx_instafeed_feedset_rawpicture_mm', $fields);
-
-
-
-        //$query -> execute(true);  
-        return $feedSet->getUid()."  ".$feed->getUid();
-     }
-
-     /** 
+        $fields = array('uid_local' => $feedSet->getUid(), 'uid_foreign' => $feed->getUid());
+        $success = $GLOBALS['TYPO3_DB']->exec_INSERTquery('tx_instafeed_feedset_rawpicture_mm', $fields);
+        //$query -> execute(true);
+        return $feedSet->getUid() . '  ' . $feed->getUid();
+    }
+    
+    /**
+     * @param $feedSetUid
+     * @param $feedUid
+     * @return sucess indicator?;
+     */
+    public function removeFeed($feedSetUid, $feedUid)
+    {
+        //$query= $this -> createQuery();
+        //$sql= 'UPDATE tx_instafeed_feedset_rawpicture_mm SET selected = 1 ';
+        $results = $GLOBALS['TYPO3_DB']->exec_DELETEquery('tx_instafeed_feedset_rawpicture_mm', 'uid_local = ' . $feedSetUid . ' AND uid_foreign = ' . $feedUid);
+        //$query -> execute(true);
+        return $results;
+    }
+    
+    /**
      * @param feedSetUid, feedUid
      * @return sucess indicator?;
-     remove record in mm database
-     */     
-     public function removeFeed ($feedSetUid,$feedUid) {
+     */
+    public function removeAllFeed($feedSetUid)
+    {
         //$query= $this -> createQuery();
         //$sql= 'UPDATE tx_instafeed_feedset_rawpicture_mm SET selected = 1 ';
-        $results=$GLOBALS['TYPO3_DB']->exec_DELETEquery('tx_instafeed_feedset_rawpicture_mm', 'uid_local = '.$feedSetUid.' AND uid_foreign = '.$feedUid);
-        //$query -> execute(true);  
+        $results = $GLOBALS['TYPO3_DB']->exec_DELETEquery('tx_instafeed_feedset_rawpicture_mm', 'uid_local = ' . $feedSetUid);
+        //$query -> execute(true);
         return $results;
-     }   
+    }
 
-
-     /** 
-     * @param feedSetUid, feedUid
-     * @return sucess indicator?;
-     remove record in mm database
-     */     
-     public function removeAllFeed ($feedSetUid) {
-        //$query= $this -> createQuery();
-        //$sql= 'UPDATE tx_instafeed_feedset_rawpicture_mm SET selected = 1 ';
-        $results=$GLOBALS['TYPO3_DB']->exec_DELETEquery('tx_instafeed_feedset_rawpicture_mm', 'uid_local = '.$feedSetUid);
-        //$query -> execute(true);  
-        return $results;
-     } 
 }

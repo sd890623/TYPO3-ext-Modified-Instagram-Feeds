@@ -10,8 +10,8 @@
 conf.py:
   copyright: 2016
   project: InstaPicturesFeed
-  version: 
-  release: 
+  version: 0.9
+  release: 0.9
   intersphinx_mapping:
     t3tsref:
     - http://docs.typo3.org/typo3cms/TyposcriptReference/

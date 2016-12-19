@@ -154,6 +154,16 @@
                             "propertyName": "description",
                             "propertyType": "Text",
                             "uid": "133311631511"
+                        },
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "",
+                            "propertyIsExcludeField": true,
+                            "propertyIsRequired": false,
+                            "propertyName": "hashtags",
+                            "propertyType": "String",
+                            "uid": "957502845620"
                         }
                     ]
                 },
@@ -198,7 +208,7 @@
             "sourceLanguage": "en",
             "state": "alpha",
             "targetVersion": "7.6.0-7.6.99",
-            "version": ""
+            "version": "0.9"
         },
         "extensionKey": "instafeed",
         "name": "InstaPicturesFeed",
@@ -233,7 +243,7 @@
         }
     ],
     "log": {
-        "last_modified": "2016-10-28 05:23",
+        "last_modified": "2016-12-08 12:08",
         "extension_builder_version": "7.6.0",
         "be_user": "Daniel Sun (4)"
     }

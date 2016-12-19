@@ -22,7 +22,7 @@ Otherwise your changes will be overwritten the next time you save the extension 
 </script>
 <div ng-app="instagramFeed" class="tx_instafeed">
 	<div ng-controller="feedSetsCtrl" class="feedSets">
-		<h1>{{notes}}</h1>
+		<h1 class="title">{{notes}}</h1><p class="error">{{error}}</p>
 
 		<div class="tabButtons">
 			<ul class="nav nav-tabs">
@@ -48,12 +48,12 @@ Otherwise your changes will be overwritten the next time you save the extension 
 		<div class="panels">
 
 			<div ng-repeat="(iter, feedSet) in feedSets" class="singleFeedSet" ng-show="checkActive(iter)" >
-				<p>Current included tags: <span ng-repeat="tag in feedSet.tags">#{{tag}} </span></p>
-				<div class="hashTag-form">
-					<form ng-submit="addFeeds(feedSet)">
-						<label>Input your hashtags</label>
-						<input type="text" ng-model="feedSet.hashTags" placeholder="ex: #food#work"/>
-						{{hashTags}}
+				<!--<p>Local pictures include tags of <span ng-repeat="tag in feedSet.tags">#{{tag}} </span></p>-->
+				<div class="hashTag-form" ng-class="{editing:feedSet.showHashInput}">
+					<label ng-dblclick="feedSet.showHashInput=true">Desired tags are: {{feedSet.hashTags}}</label>
+					<form name="hashTagForm" ng-submit="hashTagForm.$valid && changeFeeds(feedSet)" novalidate>
+						<input type="text" ng-model="feedSet.hashTags" placeholder="ex: #food#gotowork"/ required>
+							{{hashTags}}
 						<input type="submit" ng-hide="feedSet.submitted" value="Synchronize">
 					</form> 
 				</div>
@@ -64,14 +64,18 @@ Otherwise your changes will be overwritten the next time you save the extension 
 					<div ng-repeat="(iter, feed) in feedSet.pictures" ng-click="changeSelect(feed,feedSet)" class="singleFeed" ng-class="{selected:feed.selected==1}">
 						<img ng-src="{{feed.url}}" />
 						<div class="info">
-							<p>Hashtag:{{feed.hashtag}}</p>
+							<p>Hashtags:</p><p>{{feed.hashTags | lengthTrim}}<span ng-show="{{feed.hashTags.length}}>20" ng-mouseover="feed.fullTag=true" ng-mouseleave="feed.fullTag=false"> show more</span></p>
+							<p class="full-hashtags" ng-show="feed.fullTag">{{feed.hashTags}}</p>
 							<p>{{feed.notes}}</p>
 						</div>
-						<button class="btn btn-primary" ng-click="removeFeed(feed,feedSet)">Remove</button>
+						<!--<button class="btn btn-primary" ng-click="removeFeed(feed,feedSet)">Remove</button>-->
 					</div>
 				</div>
 
 			</div>
+		</div>
+		<div class="debug" ng-show="debug">
+			<button class="btn btn-primary" ng-click="showObjects()">Show Objects</button>
 		</div>
 		<f:flashMessages />
 	</div>

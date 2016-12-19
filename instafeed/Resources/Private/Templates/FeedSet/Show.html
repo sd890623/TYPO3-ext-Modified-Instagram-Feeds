@@ -31,11 +31,11 @@ Otherwise your changes will be overwritten the next time you save the extension 
 			<div class='singleFeed <f:if condition="{rawPicture.selected}==1">selected</f:if>'>
 				<img src="{rawPicture.url}" />
 				<div class="info">
-					<p>Hashtag:{rawPicture.hashtag}</p>
+					<p class="hidden">Hashtag:{rawPicture.hashtag}</p>
 					<p>{rawPicture.notes}</p>
 				</div>
 				<div class="rating">
-		    		<div class="toctoccomments">
+		    		<div class="toctoccomments hidden">
 		        		<comments:toctoccomments rawPicture="{rawPicture}"/>
 		    		</div>
 				</div>

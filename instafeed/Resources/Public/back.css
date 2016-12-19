@@ -1,27 +1,52 @@
 .singleFeedSet .singleFeed img {
-	height:300px;
+	height:200px;
 }
 .singleFeedSet .singleFeed .info {
-	
+	position: relative;
+	margin-top: 20px;
+}
+.singleFeedSet .singleFeed .info p{
+	margin-bottom: 0px;
+}
+.singleFeedSet .singleFeed .info .full-hashtags {
+    position: absolute;
+    top: 40px;
+    max-width: 100%;
+    display: block;
+    word-wrap: break-word;
+    border: 1px #bce8f1 solid;
+    color: #3a87ad;
+    background-color: #d9edf7;
+    z-index: 1;
 }
 
 .singleFeedSet .singleFeed {
 	text-align: center;
 	padding:20px;
 	margin-left: 20px;
+	margin-bottom: 20px;
 	display: inline-block;
+
+
+}
+.singleFeedSet .singleFeed img {
 	opacity:0.5;
 	transition: opacity .45s ease-in-out;
    -moz-transition: opacity .45s ease-in-out;
    -webkit-transition: opacity .45s ease-in-out;
 }
-.singleFeedSet .singleFeed.selected {
-	opacity:1;
-}
-.singleFeedSet .singleFeed .selected {
+.singleFeedSet .singleFeed.selected img {
 	opacity:1;
 }
 
+.feedSets .title {
+	display: inline-block;
+}
+.feedSets .error {
+	display: inline-block;
+	color: #d9534f;
+	font-size:18px;
+}
 .feedSets .nav-tabs form {
     margin-bottom: 0px !important;
 }
@@ -64,5 +89,17 @@
 }
 .feedSets .nav-tabs li.editing .edit input {
 	margin: 3px;
+	display: block;
+}
+.hashTag-form label {
+	display:block;
+}
+.hashTag-form form {
+	display:none;
+}
+.hashTag-form.editing label {
+	display: none;
+}
+.hashTag-form.editing form {
 	display: block;
 }
