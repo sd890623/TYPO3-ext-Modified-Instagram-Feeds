@@ -35,7 +35,7 @@
    -moz-transition: opacity .45s ease-in-out;
    -webkit-transition: opacity .45s ease-in-out;
 }
-.singleFeedSet .singleFeed.selected img {
+.singleFeedSet img.selected{
 	opacity:1;
 }
 
@@ -92,7 +92,7 @@
 	display: block;
 }
 .hashTag-form label {
-	display:block;
+	display:inline-block;
 }
 .hashTag-form form {
 	display:none;
@@ -102,4 +102,14 @@
 }
 .hashTag-form.editing form {
 	display: block;
+}
+.hashTag-form.editing form .input-area{
+	display: inline-block;
+}
+.hashTag-form .my-progress-bar {
+	width: 100px;
+    height: 18px;
+    background: url("/typo3conf/ext/instafeed/Resources/Public/Icons/loading-bar.gif");
+    background-position: 50% 48%;
+    display: inline-block;
 }

@@ -8,7 +8,7 @@ CREATE TABLE tx_instafeed_domain_model_rawpicture (
 
 	url varchar(255) DEFAULT '' NOT NULL,
 	hashtag varchar(255) DEFAULT '' NOT NULL,
-	notes varchar(255) DEFAULT '' NOT NULL,
+	notes text DEFAULT '' NOT NULL,
 	selected tinyint(1) unsigned DEFAULT '0' NOT NULL,
 	id varchar(255) DEFAULT '' NOT NULL,
 

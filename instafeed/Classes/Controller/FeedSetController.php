@@ -32,6 +32,7 @@ namespace Cerebrum\Instafeed\Controller;
 class FeedSetController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 {
 
+
     /**
      * feedSetRepository
      *
@@ -122,7 +123,7 @@ class FeedSetController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
     public function showAction()
     {
         $feedSetUid = $this->settings['feedSets'];
-        if ($feedSetUid == null) {
+        if ($feedSetUid == null || $this->feedSetRepository->findByUid($feedSetUid)==null ) {
             $this->view->assign('errorMsg', 'Woops, an error occured. Please choose a campaign in the backend of the page');
         } else {
             $feedSet = $this->feedSetRepository->findByUid($feedSetUid);
@@ -197,6 +198,7 @@ class FeedSetController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
      */
     public function updateAction()
     {
+        $logger = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Core\Log\LogManager')->getLogger(__CLASS__);
         $this->persistenceManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Persistence\\Generic\\PersistenceManager');
         $post = $_POST;
         $mode = $post['type'];
@@ -227,7 +229,7 @@ class FeedSetController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
                     $hashArray = explode('#', $hashtags);
 
                     //Insert your own access token, refer to https://www.instagram.com/developer/authentication/
-                    $access_token = 
+                    $access_token = '';
                     $storagePageID = 49;
                     $feedSet = $this->feedSetRepository->findByUid($feedSetId);
                     //If hashtags changed, remove all records from mm table.
@@ -235,40 +237,12 @@ class FeedSetController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 
                     $existHashArray=array();//explode ('#',$feedSet->getHashtags());
                     foreach ($hashArray as $eachHash) {
-                        $url = 'https://api.instagram.com/v1/tags/' . $eachHash . '/media/recent?access_token=' . $access_token.'&count=150';
-                        $json = file_get_contents($url);
-                        $data = json_decode($json, TRUE);
-                        //Deal with hashtags field
-                        $same=false;
-                        foreach($existHashArray as $existSingleHash) {
-                            if ($existSingleHash==$eachHash) $same=true;
-                        }
-                        if (!$same) $existHashArray[]=$eachHash;
-                        //if (empty($data['data'])) {return "empty result";}
-                        foreach ($data['data'] as $var) {
-                            $stdResImgUrl = $var['images']['standard_resolution']['url'];
-                            $singleFeedInst = new \Cerebrum\Instafeed\Domain\Model\RawPicture();
-                            $singleFeedInst->setUrl($stdResImgUrl);
-                            $singleFeedInst->setHashtag($var['tags']);
-                            $singleFeedInst->setSelected(FALSE);
-                            $singleFeedInst->setId($var['id']);
-                            $singleFeedInst->setPid((int) $storagePageID);
-                            $exist = $this->rawPictureRepository->findById($singleFeedInst)->getFirst();
-                            //Testing method.
-                            //$testFeedInst = new \Cerebrum\Instafeed\Domain\Model\RawPicture();
-                            //$testFeedInst->setId('1394752205466610478_4036265431');
-                            //$singleFeedInst=$this->rawPictureRepository->findById($testFeedInst)->getFirst();
-                            //return $singleFeedInst->getUrl();
-                            if (empty($exist)) {
-                                //return "empty exist";
-                                $this->rawPictureRepository->add($singleFeedInst);
-                                $this->persistenceManager->persistAll();
-                                $this->feedSetRepository->addFeed($feedSet, $singleFeedInst);
-                            } else {
-                                if (empty($this->feedSetRepository->findMMByUid($feedSet, $exist))) {
-                                    $this->feedSetRepository->addFeed($feedSet, $exist);
-                                }
-                            }
+
+                        if ($eachHash!=""&&$eachHash!=" ") {
+                            $url = 'https://api.instagram.com/v1/tags/' . $eachHash . '/media/recent?access_token=' . $access_token.'&count=150';
+                            $logger->warning($url);
+                            $this->getHttpSave($url,$existHashArray,$eachHash,$feedSet);
+
                         }
                     }
                     $feedSet->setHashtags(implode("#", $existHashArray));
@@ -318,6 +292,57 @@ class FeedSetController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
         
         //return ($this->feedSetRepository->updateFeedSelect(1,85,1));
         return 'error';
+    }
+    public function getHttpSave($url,&$existHashArray,$eachHash,$feedSet) {
+
+        $json = file_get_contents($url);
+        $data = json_decode($json, TRUE);
+        //Deal with hashtags field
+        $same=false;
+        foreach($existHashArray as $existSingleHash) {
+            if ($existSingleHash==$eachHash) $same=true;
+        }
+        if (!$same) $existHashArray[]=$eachHash;
+        //if (empty($data['data'])) {return "empty result";}
+        foreach ($data['data'] as $var) {
+            $stdResImgUrl = $var['images']['standard_resolution']['url'];
+            $origNotes=$var['caption']['text'];
+            preg_match_all('/(?P<hashtags>\#\w+)/', $origNotes, $matches);
+
+            $singleFeedInst = new \Cerebrum\Instafeed\Domain\Model\RawPicture();
+            $singleFeedInst->setId($var['id']);
+            $exist = $this->rawPictureRepository->findById($singleFeedInst)->getFirst();
+            //Testing method.
+            //$testFeedInst = new \Cerebrum\Instafeed\Domain\Model\RawPicture();
+            //$testFeedInst->setId('1394752205466610478_4036265431');
+            //$singleFeedInst=$this->rawPictureRepository->findById($testFeedInst)->getFirst();
+            //return $singleFeedInst->getUrl();
+            if (empty($exist)) {
+                //return "empty exist";
+                
+                $singleFeedInst->setUrl($stdResImgUrl);
+                $singleFeedInst->setHashtag($var['tags']);
+                $singleFeedInst->setSelected(FALSE);
+                $singleFeedInst->setNotes(str_replace($matches['hashtags'], '', $origNotes));
+                $singleFeedInst->setPid((int) $storagePageID);
+
+                $this->rawPictureRepository->add($singleFeedInst);
+                $this->persistenceManager->persistAll();
+                $this->feedSetRepository->addFeed($feedSet, $singleFeedInst);
+            } else {
+                $exist->setUrl($stdResImgUrl);
+                $exist->setHashtag($var['tags']);
+                $exist->setNotes(str_replace($matches['hashtags'], '', $origNotes));
+                $this->rawPictureRepository->update($exist);
+                $this->persistenceManager->persistAll();
+                if (empty($this->feedSetRepository->findMMByUid($feedSet, $exist))) {
+                    $this->feedSetRepository->addFeed($feedSet, $exist);
+                }
+            }
+        }
+        if ($data['pagination']['next_url']!=null) {
+            $this->getHttpSave($data['pagination']['next_url'],$existHashArray,$eachHash,$feedSet);
+        }
     }
     
     /**

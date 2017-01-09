@@ -52,23 +52,29 @@ Otherwise your changes will be overwritten the next time you save the extension 
 				<div class="hashTag-form" ng-class="{editing:feedSet.showHashInput}">
 					<label ng-dblclick="feedSet.showHashInput=true">Desired tags are: {{feedSet.hashTags}}</label>
 					<form name="hashTagForm" ng-submit="hashTagForm.$valid && changeFeeds(feedSet)" novalidate>
-						<input type="text" ng-model="feedSet.hashTags" placeholder="ex: #food#gotowork"/ required>
+
+						<div class="input-area">
+							<input type="text" ng-model="feedSet.hashTags" placeholder="ex: #food#gotowork"/ required>
 							{{hashTags}}
-						<input type="submit" ng-hide="feedSet.submitted" value="Synchronize">
+							<input type="submit" ng-hide="feedSet.submitted" value="Synchronize">
+						</div>
+						<div class="my-progress-bar" ng-show="feedSet.submitted">
+						</div>						
+						
+
 					</form> 
 				</div>
 				<div class="error-msg">
 					{{error}}
 				</div>
 				<div class="row">
-					<div ng-repeat="(iter, feed) in feedSet.pictures" ng-click="changeSelect(feed,feedSet)" class="singleFeed" ng-class="{selected:feed.selected==1}">
-						<img ng-src="{{feed.url}}" />
+					<div ng-repeat="(iter, feed) in feedSet.pictures"  class="singleFeed" >
+						<img ng-src="{{feed.url}}" ng-click="changeSelect(feed,feedSet)" ng-class="{selected:feed.selected==1}"/>
 						<div class="info">
 							<p>Hashtags:</p><p>{{feed.hashTags | lengthTrim}}<span ng-show="{{feed.hashTags.length}}>20" ng-mouseover="feed.fullTag=true" ng-mouseleave="feed.fullTag=false"> show more</span></p>
 							<p class="full-hashtags" ng-show="feed.fullTag">{{feed.hashTags}}</p>
-							<p>{{feed.notes}}</p>
 						</div>
-						<!--<button class="btn btn-primary" ng-click="removeFeed(feed,feedSet)">Remove</button>-->
+						<button class="btn btn-primary" ng-click="removeFeed(feed,feedSet)">Remove</button>
 					</div>
 				</div>
 
